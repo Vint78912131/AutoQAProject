@@ -1,9 +1,7 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,30 +9,55 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 public class LogInDemoQA {
-    public static void main(String[] args) {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--blink-settings=imagesEnabled=false");
+    ChromeOptions chromeOptions = new ChromeOptions().addArguments("--blink-settings=imagesEnabled=false");
+    WebDriver webDriver = WebDriverManager.chromedriver().capabilities(chromeOptions).create();
+    WebDriverWait wait = new WebDriverWait(webDriver,3000);
 
-        WebDriver webDriver = WebDriverManager.chromedriver().capabilities(chromeOptions).create();
+    void logIn(String userName, String password){
+        WebElement bookStore = webDriver.findElement(By.cssSelector(".category-cards > div:nth-child(6)"));
+        bookStore.click();
 
-        webDriver.get("https://pop-music.ru/");
-        webDriver.manage().window().setSize(new Dimension(1500, 1100));
-        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        WebElement loginButton1 = webDriver.findElement(By.xpath(".//*[@id='login']"));
+        wait.until(ExpectedConditions.visibilityOf(loginButton1));
+        loginButton1.click();
 
-        webDriver.findElement(By.xpath("//div[@class='header__links']//a[div[text()='Войти']]")).click();
+        WebElement uN = webDriver.findElement(By.xpath(".//*[@id='userName']"));
+        uN.sendKeys(userName);
 
-//        new WebDriverWait(webDriver, 5).until(ExpectedConditions.presenceOfElementLocated(authPopupLocator));
+        WebElement pW = webDriver.findElement(By.xpath(".//*[@id='password']"));
+        pW.sendKeys(password);
 
-        WebElement authPopup = webDriver.findElement(By.xpath("//div[@class='popup-login__tab is-active']"));
-        authPopup.findElement(By.name("USER_LOGIN")).sendKeys("autosupertravel@yandex.ru");
-        authPopup.findElement(By.name("USER_PASSWORD")).sendKeys("12345678");
-        authPopup.findElement(By.xpath(".//button[span[text()='Войти']]")).click();
-        webDriver.findElement(By.cssSelector("div.header__user")).click();
-        new WebDriverWait(webDriver, 5).until(ExpectedConditions.visibilityOf(webDriver.findElement(By.xpath("//a[text()='Выйти']"))))
-                .click();
-        new WebDriverWait(webDriver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='header__links']//a[div[text()='Войти']]")));
+        WebElement loginButton2 = webDriver.findElement(By.xpath(".//*[@id='login']"));
+        wait.until(ExpectedConditions.visibilityOf(loginButton2));
+        loginButton2.click();
+
+//        if (webDriver.findElement(By.xpath("//*[@class='mb-1']")).isEnabled())
+//            System.out.println("Invalid username or password!");
+//        else
+//            System.out.println("Logging in user \'" + userName + "\' has been done!");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         webDriver.quit();
-
-        System.out.println("Done!");
     }
+
+    public LogInDemoQA() {
+        setWebDriver("https://demoqa.com/");
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+    }
+
+    public LogInDemoQA(String resource) {
+        setWebDriver(resource);
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+    }
+
+    public void setWebDriver(String resource) {
+        webDriver.get(resource);;
+    }
+
 }
