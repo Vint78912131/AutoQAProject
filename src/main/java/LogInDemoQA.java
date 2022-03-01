@@ -9,55 +9,51 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 public class LogInDemoQA {
-    ChromeOptions chromeOptions = new ChromeOptions().addArguments("--blink-settings=imagesEnabled=false");
-    WebDriver webDriver = WebDriverManager.chromedriver().capabilities(chromeOptions).create();
-    WebDriverWait wait = new WebDriverWait(webDriver,3000);
 
-    void logIn(String userName, String password){
-        WebElement bookStore = webDriver.findElement(By.cssSelector(".category-cards > div:nth-child(6)"));
-        bookStore.click();
+    private static WebElement webElement;
 
-        WebElement loginButton1 = webDriver.findElement(By.xpath(".//*[@id='login']"));
-        wait.until(ExpectedConditions.visibilityOf(loginButton1));
-        loginButton1.click();
+    void logIn(WebDriver webDriver, String userName, String password){
+//        WebElement bookStore = webDriver.findElement(By.cssSelector(".category-cards > div:nth-child(6)"));
+//        wait.until(ExpectedConditions.visibilityOf(bookStore));
+//        System.out.println("book store is visible");
+//        bookStore.click();
 
-        WebElement uN = webDriver.findElement(By.xpath(".//*[@id='userName']"));
-        uN.sendKeys(userName);
+        //loginButton1
+        setWebElement(webDriver.findElement(By.xpath(".//*[@id='login']")));
+        new WebDriverWait(webDriver,3000).until(ExpectedConditions.visibilityOf(webElement));
+        System.out.println("loginButton1 is visible");
+        webElement.click();
 
-        WebElement pW = webDriver.findElement(By.xpath(".//*[@id='password']"));
-        pW.sendKeys(password);
+        //userName
+        setWebElement(webDriver.findElement(By.xpath(".//*[@id='userName']")));
+        System.out.println("userName is written");
+        webElement.sendKeys(userName);
 
-        WebElement loginButton2 = webDriver.findElement(By.xpath(".//*[@id='login']"));
-        wait.until(ExpectedConditions.visibilityOf(loginButton2));
-        loginButton2.click();
+        //password
+        setWebElement(webDriver.findElement(By.xpath(".//*[@id='password']")));
+        System.out.println("password is written");
+        webElement.sendKeys(password);
+
+        //loginButton2
+        setWebElement(webDriver.findElement(By.xpath(".//*[@id='login']")));
+        new WebDriverWait(webDriver,3000).until(ExpectedConditions.visibilityOf(webElement));
+        System.out.println("loginButton2 is visible");
+        webElement.click();
 
 //        if (webDriver.findElement(By.xpath("//*[@class='mb-1']")).isEnabled())
 //            System.out.println("Invalid username or password!");
 //        else
 //            System.out.println("Logging in user \'" + userName + "\' has been done!");
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        webDriver.quit();
     }
 
     public LogInDemoQA() {
-        setWebDriver("https://demoqa.com/");
-        webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
     }
 
-    public LogInDemoQA(String resource) {
-        setWebDriver(resource);
-        webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+    public WebElement getWebElement() {
+        return webElement;
     }
-
-    public void setWebDriver(String resource) {
-        webDriver.get(resource);;
+    public void setWebElement(WebElement webElement) {
+        this.webElement = webElement;
     }
 
 }
