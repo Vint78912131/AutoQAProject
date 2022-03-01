@@ -1,8 +1,6 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +19,7 @@ public class Tests {
        LogInDemoQA test1;
        test1 = new LogInDemoQA();
        test1.logIn(webDriver,"Ivan","P@$$w0rd");
-       BuyBook test2 = new BuyBook();
+       bookStore test2 = new bookStore();
        test2.searchBook(webDriver,"Programming");
 
         try {
