@@ -9,10 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 public class LogInDemoQA {
-
     private static WebElement webElement;
 
-    void logIn(WebDriver webDriver, String userName, String password){
+    public void logIn(WebDriver webDriver, String userName, String password){
+        webDriver.get("https://demoqa.com/login");
         //loginButton1
         setWebElement(webDriver.findElement(By.xpath(".//*[@id='login']")));
         webElement.click();
@@ -27,6 +27,11 @@ public class LogInDemoQA {
 
         //loginButton2
         setWebElement(webDriver.findElement(By.xpath(".//*[@id='login']")));
+        webElement.click();
+    }
+
+    public void logOut(WebDriver webDriver) {
+        setWebElement(webDriver.findElement(By.xpath("//*[contains(text(),'Log out')]")));
         webElement.click();
     }
 

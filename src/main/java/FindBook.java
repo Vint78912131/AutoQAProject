@@ -1,21 +1,20 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class bookStore {
+public class FindBook {
     private static WebElement webElement;
     private static List<WebElement> books;
 
-    public bookStore() {
+    public FindBook() {
     }
 
     void searchBook(WebDriver webDriver, String bookName){
+        webDriver.get("https://demoqa.com/books");
         setWebElement(webDriver.findElement(By.xpath("//*[@id='searchBox']")));
+        webElement.clear();
         webElement.sendKeys(bookName);
 
         //basic-addon2 element
@@ -25,12 +24,12 @@ public class bookStore {
 
         books = webDriver.findElements(By.className("mr-2"));
         if (books.size() != 0) {
-            //action-buttons element
-            setWebElement(books.get(0));
-            //setWebElement(webDriver.findElement(By.cssSelector(".action-buttons")));
-            webElement.click();
-        }
-
+            System.out.println("Book list by \'" + bookName + "\':\n");
+            for (WebElement we:books) {
+                System.out.println("\'" + we.getText() + "\'");
+            }
+        } else
+            System.out.println("\nNo results by \'" + bookName + "\'");
     }
 
     public static WebElement getWebElement() {
@@ -38,6 +37,6 @@ public class bookStore {
     }
 
     public static void setWebElement(WebElement webElement) {
-        bookStore.webElement = webElement;
+        FindBook.webElement = webElement;
     }
 }
