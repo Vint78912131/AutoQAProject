@@ -1,4 +1,4 @@
-package ru.gb.lessons;
+package ru.gb.lessons.lesson4;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -6,8 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.gb.lessons.lesson4.Colour;
-import ru.gb.lessons.lesson4.Triangle;
 
 import java.util.stream.Stream;
 
