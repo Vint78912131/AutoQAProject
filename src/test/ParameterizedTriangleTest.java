@@ -76,7 +76,7 @@ public class ParameterizedTriangleTest {
     void paintTriangleTest(Color oldColor, Color newColor) {
         Triangle triangle = new Triangle(3, 3, 3, oldColor);
         triangle.paint(newColor);
-        assertEquals(newColor, triangle.getColor());
+        Assertions.assertEquals(newColor, triangle.getColor());
     }
 
     @Nested
@@ -93,14 +93,14 @@ public class ParameterizedTriangleTest {
         void paintTriangleTest(Color color) {
             Assumptions.assumeFalse(triangle.getColor().equals(color));
             triangle.paint(color);
-            assertEquals(color, triangle.getColor());
+            Assertions.assertEquals(color, triangle.getColor());
         }
 
         @ParameterizedTest
         @ValueSource(strings = {"BLUE", "RED", "GREY"})
         void paintTriangleTest(String color) {
             triangle.paint(color);
-            assertEquals(color, triangle.getColor().toString());
+            Assertions.assertEquals(color, triangle.getColor().toString());
         }
     }
 }

@@ -1,7 +1,9 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
 
@@ -9,6 +11,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AssertJTest {
+    private static Logger logger = LoggerFactory.getLogger(AssertJTest.class);
+
+    @BeforeEach
+    void setUp() {
+        logger.error("BeforeEach");
+    }
+
+    @AfterEach
+    void tearDown() {
+        logger.error("AfterEach");
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        logger.error("BeforeAll");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        logger.error("AfterAll");
+    }
 
     public static Stream<Arguments> triangles() {
         return Stream.of(Arguments.of(new Triangle(3, 4, 5), 12),
