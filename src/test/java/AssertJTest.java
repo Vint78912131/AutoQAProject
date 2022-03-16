@@ -1,18 +1,20 @@
+package java;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@ExtendWith(TimerTestExtension.class)
-public class ParameterizedTriangleTest {
-    private static Logger logger = LoggerFactory.getLogger(ParameterizedTriangleTest.class);
+public class AssertJTest {
+    private static Logger logger = LoggerFactory.getLogger(AssertJTest.class);
 
     @BeforeEach
     void setUp() {
@@ -45,8 +47,10 @@ public class ParameterizedTriangleTest {
     @MethodSource("triangles")
     void countPerimeterPositiveTest(Triangle triangle, int expectedResult) {
         int perimeter = triangle.countPerimeter();
-        assertEquals(expectedResult, perimeter);
+        assertThat(perimeter).as("Проверяем, что периметр должен ....")
+                .isEqualTo(expectedResult);
     }
+
 
     public static Stream<Arguments> negativeTriangles() {
         return Stream.of(Arguments.of(new Triangle(0, 3, 3), "Sides must be positive"),
@@ -64,43 +68,17 @@ public class ParameterizedTriangleTest {
     @ParameterizedTest(name = "Периметр треугольника: негативный сценарий (треугольника {0}, ошибка:{1})")
     @MethodSource("negativeTriangles")
     public void countPerimeterNegativeTest(Triangle triangle, String errorText) {
-        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, triangle::countPerimeter);
-        assertEquals(errorText, illegalArgumentException.getMessage());
+        assertThatThrownBy(triangle::countPerimeter)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(errorText);
     }
 
-
-
-
-    @ParameterizedTest
-    @CsvSource(value = {"BLUE,RED", "RED,WHITE", "GREY,BLUE"})
-    void paintTriangleTest(Color oldColor, Color newColor) {
-        Triangle triangle = new Triangle(3, 3, 3, oldColor);
-        triangle.paint(newColor);
-        Assertions.assertEquals(newColor, triangle.getColor());
-    }
-
-    @Nested
-    public class TriangleCreatingBeforeTest {
-        Triangle triangle;
-
-        @BeforeEach
-        void setUp() {
-            triangle = new Triangle(3, 3, 3);
-        }
-
-        @ParameterizedTest
-        @EnumSource(Color.class)
-        void paintTriangleTest(Color color) {
-            Assumptions.assumeFalse(triangle.getColor().equals(color));
-            triangle.paint(color);
-            Assertions.assertEquals(color, triangle.getColor());
-        }
-
-        @ParameterizedTest
-        @ValueSource(strings = {"BLUE", "RED", "GREY"})
-        void paintTriangleTest(String color) {
-            triangle.paint(color);
-            Assertions.assertEquals(color, triangle.getColor().toString());
-        }
+    @Test
+    void similarTriangleTest() {
+        Triangle triangle = new Triangle(3, 3, 3);
+        Triangle similarTriangle = triangle.createSimilarTriangle(2);
+        Assertions.assertThat(similarTriangle).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(Color.class)
+                .isEqualTo(new Triangle(6, 6, 6, Color.BLUE));
     }
 }

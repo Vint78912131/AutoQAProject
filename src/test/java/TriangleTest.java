@@ -1,3 +1,6 @@
+package java;
+
+import src.main.java.Triangle;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
