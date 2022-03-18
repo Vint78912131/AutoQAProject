@@ -1,5 +1,5 @@
 package ru.gb.lessons.lesson4;
 
-public enum Colour {
+public enum Color {
     BLUE, WHITE, GREY, RED
 }

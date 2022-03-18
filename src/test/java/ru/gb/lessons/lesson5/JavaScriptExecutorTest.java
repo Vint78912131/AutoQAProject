@@ -10,7 +10,7 @@ public class JavaScriptExecutorTest extends BaseTest {
 
     @SneakyThrows
     @Test
-    void javaScriptExecutorTest() {
+    void javaScriptExecutorTest() throws InterruptedException {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
 
         webDriver.get("https://demoqa.com/modal-dialogs");

@@ -54,7 +54,7 @@ public class AssertJTest {
         Triangle triangle = new Triangle(3, 3, 3);
         Triangle similarTriangle = triangle.createSimilarTriangle(2);
         assertThat(similarTriangle).usingRecursiveComparison()
-                .ignoringFieldsOfTypes(Colour.class)
-                .isEqualTo(new Triangle(6, 6, 6, Colour.BLUE));
+                .ignoringFieldsOfTypes(Color.class)
+                .isEqualTo(new Triangle(6, 6, 6, Color.BLUE));
     }
 }

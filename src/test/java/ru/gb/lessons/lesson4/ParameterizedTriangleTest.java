@@ -75,7 +75,7 @@ public class ParameterizedTriangleTest {
 
     @ParameterizedTest
     @CsvSource(value = {"BLUE,RED", "RED,WHITE", "GREY,BLUE"})
-    void paintTriangleTest(Colour oldColour, Colour newColour) {
+    void paintTriangleTest(Color oldColour, Color newColour) {
         Triangle triangle = new Triangle(3, 3, 3, oldColour);
         triangle.paint(newColour);
         assertEquals(newColour, triangle.getColour());
@@ -91,8 +91,8 @@ public class ParameterizedTriangleTest {
         }
 
         @ParameterizedTest
-        @EnumSource(Colour.class)
-        void paintTriangleTest(Colour colour) {
+        @EnumSource(Color.class)
+        void paintTriangleTest(Color colour) {
             Assumptions.assumeFalse(triangle.getColour().equals(colour));
             triangle.paint(colour);
             assertEquals(colour, triangle.getColour());

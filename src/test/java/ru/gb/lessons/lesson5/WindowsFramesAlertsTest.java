@@ -16,10 +16,10 @@ public class WindowsFramesAlertsTest extends BaseTest {
         webDriver.get("https://demoqa.com/browser-windows");
         webDriver.findElement(By.id("tabButton")).click();
 
-        List<String> windowHandles = List.copyOf(webDriver.getWindowHandles());
+//        List<String> windowHandles = List.copyOf(webDriver.getWindowHandles());
 
-        assertThat(windowHandles).hasSize(2);
-        webDriver.switchTo().window(windowHandles.get(1));
+//        assertThat(windowHandles).hasSize(2);
+//        webDriver.switchTo().window(windowHandles.get(1));
 
         new WebDriverWait(webDriver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[text()='This is a sample page']")));
     }

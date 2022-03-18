@@ -8,10 +8,10 @@ public class UploadFileTest extends BaseTest {
 
     @SneakyThrows
     @Test
-    void uploadFileTest() {
+    void uploadFileTest() throws InterruptedException {
         webDriver.get("http://the-internet.herokuapp.com/upload");
         webDriver.findElement(By.xpath("//input[@type='file']"))
-                .sendKeys("/Users/dimakar/GB/february/lessons-ui-autotests-february/src/test/resources/logback.xml");
+                .sendKeys("/Users/sotnikov/IdeaProjects/AutoQAProject/src/test/resources/logback.xml");
         Thread.sleep(5000);
     }
 }

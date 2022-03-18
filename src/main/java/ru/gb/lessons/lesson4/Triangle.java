@@ -10,13 +10,29 @@ public class Triangle {
     private int a;
     private int b;
     private int c;
-    private Colour colour;
+
+    public Color getColour() {
+        return colour;
+    }
+
+    public void setColour(Color colour) {
+        this.colour = colour;
+    }
+
+    private Color colour;
 
     public Triangle(int a, int b, int c) {
         this.a = a;
         this.b = b;
         this.c = c;
-        colour = Colour.WHITE;
+        this.colour = Color.WHITE;
+    }
+
+    public Triangle(int a, int b, int c, Color color) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.colour = color;
     }
 
     private void checkSidesArePositive() {
@@ -37,7 +53,7 @@ public class Triangle {
         return a + b + c;
     }
 
-    public void paint(Colour colour) {
+    public void paint(Color colour) {
         if (this.colour == colour) {
             throw new IllegalArgumentException("New colour must not be equal to old colour");
         }
@@ -47,7 +63,7 @@ public class Triangle {
     public void paint(String colour) {
         checkSidesArePositive();
         checkOneSideIsSmallerThanSumOfOthers();
-        paint(Colour.valueOf(colour));
+        paint(Color.valueOf(colour));
     }
 
 
