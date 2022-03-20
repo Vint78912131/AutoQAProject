@@ -3,6 +3,7 @@ package ru.gb.lessons.lesson5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -59,6 +60,8 @@ public class DemoQABookStoreApplicationTest extends BaseTest{
             }
             books.get(0).click();
             webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();"
+                    ,webDriver.findElement(By.xpath(".//*[contains(text(),'Back To Book Store')]")));
             webDriver.findElement(By.xpath(".//*[contains(text(),'Back To Book Store')]")).click();
             webDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         }
@@ -89,6 +92,8 @@ public class DemoQABookStoreApplicationTest extends BaseTest{
         webDriver.findElement(By.id("userEmail")).sendKeys("gentlemensOfGoodLuck@gmail.com");
         webDriver.findElement(By.id("currentAddress")).sendKeys("г. Москва, ул. Тверская, д.1, кв.1");
         webDriver.findElement(By.id("permanentAddress")).sendKeys("г. Тверь, ул. Московская, д.1, кв.1");
+        ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();"
+                ,webDriver.findElement(By.id("submit")));
         webDriver.findElement(By.id("submit")).click();
     }
 
@@ -99,10 +104,10 @@ public class DemoQABookStoreApplicationTest extends BaseTest{
     void radioButtonDemoQATest() {
         webDriver.get("https://demoqa.com/radio-button");
         webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-        webDriver.findElement(By.xpath(".//*[@for='yesRadio']")).click();
-        webDriver.findElement(By.xpath(".//*[@for='impressiveRadio']")).click();
-        webDriver.findElement(By.xpath(".//*[@for='yesRadio']")).click();
-        webDriver.findElement(By.xpath(".//*[@for='impressiveRadio']")).click();
+        for (int i = 0; i < 3; i++) {
+            webDriver.findElement(By.xpath(".//*[@for='yesRadio']")).click();
+            webDriver.findElement(By.xpath(".//*[@for='impressiveRadio']")).click();
+        }
     }
 
 
@@ -123,14 +128,21 @@ public class DemoQABookStoreApplicationTest extends BaseTest{
         webDriver.findElement(By.id("submit")).click();
 
         webDriver.switchTo().activeElement();
-
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 
+    @Test
+    @DisplayName("Mouse buttons click test")
+    void mouseButtonsClickDemoQATest() {
+        webDriver.get("https://demoqa.com/buttons");
+        webDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+
+        Actions act = new Actions(webDriver);
+        act.doubleClick(webDriver.findElement(By.id("doubleClickBtn"))).perform();
+        act.contextClick(webDriver.findElement(By.id("rightClickBtn"))).perform();
+        //У третьей кнопки динамически меняется id
+        List<WebElement> buttons = webDriver.findElements(By.xpath(".//*[@class='btn btn-primary']"));
+        act.click(buttons.get(2));
+
+    }
 
 }

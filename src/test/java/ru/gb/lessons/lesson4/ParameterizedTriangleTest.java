@@ -70,9 +70,6 @@ public class ParameterizedTriangleTest {
         assertEquals(errorText, illegalArgumentException.getMessage());
     }
 
-
-
-
     @ParameterizedTest
     @CsvSource(value = {"BLUE,RED", "RED,WHITE", "GREY,BLUE"})
     void paintTriangleTest(Color oldColour, Color newColour) {
@@ -105,4 +102,38 @@ public class ParameterizedTriangleTest {
             assertEquals(colour, triangle.getColour().toString());
         }
     }
+
+
+    @ParameterizedTest(name = "Периметр треугольника: негативный сценарий (треугольника {0}, ошибка:{1})")
+    @MethodSource("negativeTriangles")
+    @DisplayName("Одна сторона треугольника не может быть равной нулю \'0\' или быть отрицательной")
+    public void countPerimeterSideFailedTest(Triangle triangle, String errorText) {
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, triangle::countPerimeter);
+        assertEquals(errorText, illegalArgumentException.getMessage());
+    }
+
+    public static Stream<Arguments> PositiveAreaTriangles() {
+        return Stream.of(Arguments.of(new Triangle(3, 3, 3), 2.00),
+                Arguments.of(new Triangle(3, 2, 3), 2.83),
+                Arguments.of(new Triangle(4, 5, 6), 6.48)
+        );
+    }
+
+    @ParameterizedTest(name = "Площадь треугольника: позитивный сценарий (треугольника {0}, результат:{1})")
+    @MethodSource("PositiveAreaTriangles")
+    @DisplayName("Площадь треугольника вычислена корректно")
+    public void countTriangleAreaPositive1Test(Triangle triangle, double expectedResult) {
+        double s = triangle.countArea();
+        assertEquals(expectedResult, s);
+    }
+
+
+    @ParameterizedTest(name = "Площадь треугольника: негативный сценарий (треугольника {0}, ошибка:{1})")
+    @MethodSource("negativeTriangles")
+    @DisplayName("Площадь треугольника невозможно вычислить")
+    public void countTriangleAreaNegativeTest(Triangle triangle, String errorText) {
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, triangle::countArea);
+        assertEquals(errorText, illegalArgumentException.getMessage());
+    }
+
 }

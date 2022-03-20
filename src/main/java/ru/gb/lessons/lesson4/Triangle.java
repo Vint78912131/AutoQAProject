@@ -3,6 +3,8 @@ package ru.gb.lessons.lesson4;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Locale;
+
 @Data
 @AllArgsConstructor
 public class Triangle {
@@ -26,13 +28,6 @@ public class Triangle {
         this.b = b;
         this.c = c;
         this.colour = Color.WHITE;
-    }
-
-    public Triangle(int a, int b, int c, Color color) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.colour = color;
     }
 
     private void checkSidesArePositive() {
@@ -69,7 +64,11 @@ public class Triangle {
 
     public double countArea() {
         // TODO: 01.03.2022 realize https://shkolkovo.net/theory/128
-        return 0;
+        checkSidesArePositive();
+        checkOneSideIsSmallerThanSumOfOthers();
+        double p = countPerimeter() / 2;
+        double s = Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        return Double.valueOf(String.format(Locale.US, "%.2f", s));
     }
 
 
@@ -78,6 +77,9 @@ public class Triangle {
         checkSidesArePositive();
         checkOneSideIsSmallerThanSumOfOthers();
         // TODO: 01.03.2022 добавить проверку коэффициента
+        if (coef <= 0) {
+            throw new IllegalArgumentException("The coef must be positive number");
+        }
         return new Triangle(a * coef, b * coef, c * coef);
     }
 }

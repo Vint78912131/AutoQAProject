@@ -15,6 +15,7 @@ public class BaseTest {
         chromeOptions.addArguments("--blink-settings=imagesEnabled=false");
 
         webDriver = WebDriverManager.chromedriver().capabilities(chromeOptions).create();
+        webDriver.manage().window().maximize();
     }
 
     @AfterEach
